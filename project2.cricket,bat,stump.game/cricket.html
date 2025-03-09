@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>BAT BALL STUMP GAME</title>
+  <link rel="styleSheet" href="cricket.css" >
+</head>
+<body>
+  <h1>BAT BALL STUMP GAME</h1>
+
+  <button class="button-Choice" onclick="
+  console.log('you have chosen  BAT');
+//let randomNumber = Math.random() * 3;
+
+//console.log(`Computer choice is ${ComputerChoice}`);
+genrateComputerChoice();
+let resultMessage=getResult('bat',ComputerChoice);
+showResult('bat',ComputerChoice,resultMessage);
+
+  "><img src="Images/bat.png" alt="BAT" class="choice-image"></button>
+
+  <button class="button-Choice" onclick="
+  console.log('you have chosen  BALL');
+  genrateComputerChoice();
+//console.log(`Computer choice is ${ComputerChoice}`);
+resultMessage=getResult('ball',ComputerChoice);
+
+showResult('ball',ComputerChoice,resultMessage);
+  
+  "><img src="Images/ball.png" alt="BALL" class="choice-image"></button>
+
+  <button class="button-Choice" onclick="
+  console.log('you have chosen  STUMP');
+  genrateComputerChoice();
+//console.log(`Computer choice is ${ComputerChoice}`);
+resultMessage=getResult('Stump',ComputerChoice);
+showResult('Stump',ComputerChoice,resultMessage);
+  
+  "><img src="Images/stump.png" alt="Stump" class="choice-image"></button>
+
+<h3 id="usermove"></h3>
+<h3 id="computermove"></h3>
+<h3 id="result"></h3>
+<h3 id="score"></h3>
+
+<button onclick="localStorage.clear()
+resetScore();
+">Reset</button>
+
+  <script>
+
+    let scoreStr=localStorage.getItem('score');
+let score;
+resetScore(scoreStr);
+
+    function resetScore(scoreStr) {
+ score= scoreStr ? JSON.parse(scoreStr) : {
+  Win : 0,
+  Loss : 0,
+  Tie : 0,
+};
+    
+
+/*if(scoreStr!==undefined)
+  score=JSON.parse(scoreStr);
+else {
+score = {
+  Win : 0,
+  Loss : 0,
+  Tie : 0,
+};
+}*/
+score.displayScore=function(){
+   return `total Win's:${score.Win}
+  total Loss:${score.Loss}
+  total Tie's:${score.Tie}`;
+  };
+
+  showResult();
+    }
+
+let ComputerChoice;
+function genrateComputerChoice(){
+  let randomNumber = Math.random() * 3;
+  if(randomNumber>=0 && randomNumber<=1){
+   ComputerChoice='bat';
+  //console.log('Computer choice is BAT');
+}
+  else if(randomNumber>1 && randomNumber<=2) {
+     ComputerChoice='ball';
+   // console.log('Computer choice is BALL');
+  }
+   else if(randomNumber>2 && randomNumber<=3){
+     ComputerChoice='stump';
+    //console.log('Computer choice is STUMP');
+  }
+
+}
+
+function getResult(usermove,computermove){
+  if(usermove==='bat'){
+if(computermove==='bat'){
+  score.Tie++;
+  return 'Tie';
+}
+  else if(computermove==='ball'){
+    score.Win++;
+  return 'user win';
+  }
+else{
+score.Loss++;
+  return 'computer Won';
+}
+  }
+
+else if(usermove==='ball'){
+if(computermove==='bat'){
+  score.Loss++;
+  return 'Computer won';
+}
+  else if(computermove==='ball'){
+    score.Tie++;
+  return 'Tie';
+  }
+else{
+  score.Win++;
+  return 'user won';
+}
+}
+
+else if(usermove==='Stump'){
+if(computermove==='bat'){
+  score.Win++;
+  return 'User won';
+}
+  else if(computermove==='ball'){
+    score.Loss++;
+  return 'Computer won';}
+else{
+  score.Tie++;
+  return 'Tie';
+}
+}
+}
+
+function showResult(usermove,computermove,resultMessage){
+  localStorage.setItem('score',JSON.stringify(score));
+
+  document.querySelector('#usermove').innerText=
+  usermove ? `you have chosen a ${usermove}`:'';
+
+  document.querySelector('#computermove').innerText=
+  computermove ?`Computer choice is ${computermove}` : '';
+
+  document.querySelector('#result').innerText=
+  resultMessage ? `${resultMessage}` : '';
+
+  document.querySelector('#score').innerText=`score:
+   ${score.displayScore()}`;
+
+
+/*  alert( `you have chosen a ${usermove}.Computer choice is ${computermove} ,${resultMessage} and
+  score:
+   ${score.displayScore()}`);*/
+}
+
+  </script>
+  
+</body>
+</html>
